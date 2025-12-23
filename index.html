@@ -585,50 +585,91 @@
     }
     .cart-count:empty { display: none; }
 
-    /* Modal */
-    .modal-overlay {
+    /* Cart Drawer/Panel */
+    .cart-overlay {
       position: fixed;
       inset: 0;
-      background: rgba(0,0,0,0.6);
-      backdrop-filter: blur(4px);
+      background: rgba(0,0,0,0);
       z-index: 2000;
-      display: none;
-      align-items: center;
-      justify-content: center;
-      padding: 20px;
+      visibility: hidden;
+      transition: all .4s var(--ease);
     }
-    .modal-overlay.active { display: flex; }
-    .modal {
+    .cart-overlay.active {
+      visibility: visible;
+      background: rgba(0,0,0,0.5);
+      backdrop-filter: blur(4px);
+    }
+    .cart-drawer {
+      position: fixed;
       background: var(--white);
-      border-radius: var(--radius);
-      width: 100%;
-      max-width: 500px;
-      max-height: 90vh;
-      overflow-y: auto;
-      animation: fadeUp .3s var(--ease);
-      box-shadow: var(--shadow-lg);
+      z-index: 2001;
+      display: flex;
+      flex-direction: column;
+      transition: transform .4s cubic-bezier(0.16, 1, 0.3, 1);
+      box-shadow: -10px 0 40px rgba(0,0,0,0.15);
     }
-    .modal-header {
-      padding: 24px;
+    /* Mobile: Full page from bottom */
+    .cart-drawer {
+      inset: 0;
+      transform: translateY(100%);
+      border-radius: 24px 24px 0 0;
+    }
+    .cart-overlay.active .cart-drawer {
+      transform: translateY(0);
+    }
+    /* Desktop: Drawer from right */
+    @media (min-width: 768px) {
+      .cart-drawer {
+        top: 0;
+        right: 0;
+        bottom: 0;
+        left: auto;
+        width: 450px;
+        max-width: 100%;
+        transform: translateX(100%);
+        border-radius: 0;
+      }
+      .cart-overlay.active .cart-drawer {
+        transform: translateX(0);
+      }
+    }
+    @media (min-width: 1024px) {
+      .cart-drawer {
+        width: 480px;
+      }
+    }
+    .cart-header {
+      padding: 20px 24px;
       border-bottom: 1px solid var(--border);
       display: flex;
       justify-content: space-between;
       align-items: center;
-      position: sticky;
-      top: 0;
       background: var(--white);
-      z-index: 1;
+      flex-shrink: 0;
     }
-    .modal-header h2 {
+    .cart-header-left {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .cart-header h2 {
       margin: 0;
       font-family: 'Cormorant Garamond', serif;
-      font-size: 24px;
+      font-size: 22px;
       font-weight: 600;
       color: var(--charcoal);
     }
-    .modal-close {
-      width: 40px;
-      height: 40px;
+    .cart-badge {
+      background: var(--primary);
+      color: var(--white);
+      font-size: 11px;
+      font-weight: 700;
+      padding: 4px 10px;
+      border-radius: 20px;
+    }
+    .cart-close {
+      width: 44px;
+      height: 44px;
       background: var(--cream);
       border: none;
       border-radius: 50%;
@@ -639,40 +680,128 @@
       justify-content: center;
       transition: all .2s var(--ease);
     }
-    .modal-close:hover { background: var(--cream-dark); }
-    .modal-body { padding: 24px; }
+    .cart-close:hover {
+      background: var(--cream-dark);
+      transform: rotate(90deg);
+    }
+    .cart-close svg { width: 20px; height: 20px; }
+    .cart-body {
+      flex: 1;
+      overflow-y: auto;
+      padding: 24px;
+      overscroll-behavior: contain;
+    }
     .cart-empty {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
       text-align: center;
-      padding: 40px 20px;
+      padding: 60px 20px;
+      color: var(--gray);
+      height: 100%;
+    }
+    .cart-empty-icon {
+      width: 80px;
+      height: 80px;
+      background: var(--cream);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 20px;
+    }
+    .cart-empty-icon svg {
+      width: 36px;
+      height: 36px;
+      opacity: .5;
       color: var(--gray);
     }
-    .cart-empty svg {
-      width: 56px;
-      height: 56px;
-      margin-bottom: 16px;
-      opacity: .4;
-      color: var(--gray-light);
+    .cart-empty h3 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 20px;
+      color: var(--charcoal);
+      margin: 0 0 8px;
     }
-    .cart-items { list-style: none; padding: 0; margin: 0 0 24px; }
+    .cart-empty p {
+      margin: 0;
+      font-size: 14px;
+    }
+    .cart-items {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
     .cart-item {
       display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 14px 0;
-      border-bottom: 1px solid var(--border);
-      gap: 12px;
+      gap: 16px;
+      padding: 16px;
+      background: var(--cream);
+      border-radius: var(--radius-sm);
+      margin-bottom: 12px;
+      transition: all .2s var(--ease);
     }
-    .cart-item:last-child { border-bottom: none; }
-    .cart-item-info { flex: 1; }
-    .cart-item-name { font-weight: 600; color: var(--charcoal); font-size: 13px; }
-    .cart-item-price { font-size: 12px; color: var(--gray); }
-    .cart-item-qty { display: flex; align-items: center; gap: 8px; }
+    .cart-item:hover {
+      background: var(--cream-dark);
+    }
+    .cart-item:last-child { margin-bottom: 0; }
+    .cart-item-icon {
+      width: 48px;
+      height: 48px;
+      background: var(--white);
+      border-radius: var(--radius-xs);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+    .cart-item-icon svg {
+      width: 24px;
+      height: 24px;
+      color: var(--primary);
+    }
+    .cart-item-details {
+      flex: 1;
+      min-width: 0;
+    }
+    .cart-item-name {
+      font-weight: 600;
+      color: var(--charcoal);
+      font-size: 14px;
+      margin-bottom: 4px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .cart-item-price {
+      font-size: 13px;
+      color: var(--gray);
+    }
+    .cart-item-actions {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+      gap: 8px;
+    }
+    .cart-item-subtotal {
+      font-weight: 700;
+      color: var(--primary);
+      font-size: 14px;
+    }
+    .cart-item-qty {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      background: var(--white);
+      border-radius: 20px;
+      padding: 4px;
+    }
     .qty-btn {
       width: 28px;
       height: 28px;
-      background: var(--cream);
+      background: transparent;
       border: none;
-      border-radius: var(--radius-xs);
+      border-radius: 50%;
       color: var(--charcoal);
       cursor: pointer;
       display: flex;
@@ -680,20 +809,86 @@
       justify-content: center;
       font-weight: 600;
       transition: all .2s var(--ease);
+      font-size: 16px;
+    }
+    .qty-btn:hover {
+      background: var(--cream);
+      color: var(--primary);
+    }
+    .qty-value {
+      width: 28px;
+      text-align: center;
+      font-weight: 600;
+      color: var(--charcoal);
       font-size: 14px;
     }
-    .qty-btn:hover { background: var(--cream-dark); }
-    .qty-value { width: 24px; text-align: center; font-weight: 600; color: var(--charcoal); font-size: 13px; }
-    .cart-total {
+    .cart-footer {
+      padding: 20px 24px;
+      background: var(--white);
+      border-top: 1px solid var(--border);
+      flex-shrink: 0;
+    }
+    .cart-summary {
+      margin-bottom: 20px;
+    }
+    .cart-summary-row {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      padding: 20px 0;
+      padding: 8px 0;
+      font-size: 14px;
+      color: var(--gray);
+    }
+    .cart-summary-row.total {
+      padding: 16px 0 0;
+      margin-top: 8px;
       border-top: 2px solid var(--border);
       font-size: 16px;
       font-weight: 600;
+      color: var(--charcoal);
     }
-    .cart-total-amount { color: var(--primary); font-weight: 700; font-size: 18px; }
+    .cart-total-amount {
+      color: var(--primary);
+      font-weight: 700;
+      font-size: 20px;
+    }
+    .cart-checkout-btn {
+      width: 100%;
+      padding: 16px 24px;
+      background: var(--primary);
+      border: none;
+      border-radius: 50px;
+      color: white;
+      font-size: 15px;
+      font-weight: 600;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      transition: all .25s var(--ease);
+      font-family: inherit;
+    }
+    .cart-checkout-btn:hover {
+      background: var(--primary-dark);
+      transform: translateY(-2px);
+      box-shadow: 0 8px 24px rgba(196,30,58,0.35);
+    }
+    .cart-checkout-btn svg { width: 20px; height: 20px; }
+    .cart-continue {
+      display: block;
+      text-align: center;
+      margin-top: 12px;
+      color: var(--gray);
+      font-size: 13px;
+      cursor: pointer;
+      transition: color .2s;
+      background: none;
+      border: none;
+      width: 100%;
+      font-family: inherit;
+    }
+    .cart-continue:hover { color: var(--charcoal); }
 
     /* Order Form */
     .order-form { margin-top: 24px; }
@@ -1776,23 +1971,52 @@
     <span class="cart-count" id="cartCount"></span>
   </button>
 
-  <!-- Cart Modal -->
-  <div class="modal-overlay" id="cartModal">
-    <div class="modal">
-      <div class="modal-header">
-        <h2>Votre Commande</h2>
-        <button class="modal-close" onclick="closeCart()">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 6L6 18M6 6l12 12"/></svg>
+  <!-- Cart Drawer -->
+  <div class="cart-overlay" id="cartOverlay">
+    <div class="cart-drawer" id="cartDrawer">
+      <div class="cart-header">
+        <div class="cart-header-left">
+          <h2>Votre Panier</h2>
+          <span class="cart-badge" id="cartBadge">0</span>
+        </div>
+        <button class="cart-close" onclick="closeCart()">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 6L6 18M6 6l12 12"/></svg>
         </button>
       </div>
-      <div class="modal-body">
+
+      <div class="cart-body" id="cartBody">
         <div id="cartContent">
           <div class="cart-empty">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>
-            <p>Votre panier est vide</p>
+            <div class="cart-empty-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>
+            </div>
+            <h3>Panier vide</h3>
+            <p>Ajoutez des plats pour commencer</p>
           </div>
         </div>
-        <div id="orderForm" style="display:none;">
+      </div>
+
+      <div class="cart-footer" id="cartFooter" style="display: none;">
+        <div class="cart-summary">
+          <div class="cart-summary-row">
+            <span>Sous-total</span>
+            <span id="cartSubtotal">0 F</span>
+          </div>
+          <div class="cart-summary-row total">
+            <span>Total</span>
+            <span class="cart-total-amount" id="cartTotalAmount">0 F</span>
+          </div>
+        </div>
+        <button class="cart-checkout-btn" onclick="showOrderForm()">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"/></svg>
+          Passer la commande
+        </button>
+        <button class="cart-continue" onclick="closeCart()">Continuer mes achats</button>
+      </div>
+
+      <!-- Order Form Panel -->
+      <div id="orderFormPanel" style="display: none;">
+        <div class="cart-body">
           <form class="order-form" onsubmit="sendOrder(event)">
             <div class="form-group">
               <label>Votre Nom *</label>
@@ -1818,11 +2042,14 @@
               <label>Instructions spéciales</label>
               <textarea id="clientNotes" placeholder="Allergies, préférences..."></textarea>
             </div>
-            <button type="submit" class="btn-order">
-              <svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
-              Envoyer via WhatsApp
-            </button>
           </form>
+        </div>
+        <div class="cart-footer">
+          <button type="submit" class="btn-order" onclick="sendOrder(event)">
+            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+            Envoyer via WhatsApp
+          </button>
+          <button class="cart-continue" type="button" onclick="hideOrderForm()">Retour au panier</button>
         </div>
       </div>
     </div>

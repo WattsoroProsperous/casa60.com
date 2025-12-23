@@ -131,80 +131,126 @@ function formatPrice(price) {
 // Update cart UI
 function updateCartUI() {
   const cartCount = document.getElementById('cartCount');
+  const cartBadge = document.getElementById('cartBadge');
   const cartContent = document.getElementById('cartContent');
-  const orderForm = document.getElementById('orderForm');
+  const cartFooter = document.getElementById('cartFooter');
+  const cartSubtotal = document.getElementById('cartSubtotal');
+  const cartTotalAmount = document.getElementById('cartTotalAmount');
 
   // Update cart count
   const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
   cartCount.textContent = totalItems > 0 ? totalItems : '';
+  if (cartBadge) {
+    cartBadge.textContent = totalItems;
+    cartBadge.style.display = totalItems > 0 ? 'inline-block' : 'none';
+  }
 
   // Update cart content
   if (cart.length === 0) {
     cartContent.innerHTML = `
       <div class="cart-empty">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
-          <circle cx="9" cy="21" r="1"/>
-          <circle cx="20" cy="21" r="1"/>
-          <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/>
-        </svg>
-        <p>Votre panier est vide</p>
+        <div class="cart-empty-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+            <circle cx="9" cy="21" r="1"/>
+            <circle cx="20" cy="21" r="1"/>
+            <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/>
+          </svg>
+        </div>
+        <h3>Panier vide</h3>
+        <p>Ajoutez des plats pour commencer</p>
       </div>
     `;
-    orderForm.style.display = 'none';
+    if (cartFooter) cartFooter.style.display = 'none';
   } else {
     let cartHTML = '<ul class="cart-items">';
 
     cart.forEach(item => {
+      const subtotal = item.price * item.quantity;
       cartHTML += `
         <li class="cart-item">
-          <div class="cart-item-info">
-            <div class="cart-item-name">${item.name}</div>
-            <div class="cart-item-price">${formatPrice(item.price)} × ${item.quantity}</div>
+          <div class="cart-item-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+              <path d="M12 2L2 7l10 5 10-5-10-5z"/>
+              <path d="M2 17l10 5 10-5"/>
+              <path d="M2 12l10 5 10-5"/>
+            </svg>
           </div>
-          <div class="cart-item-qty">
-            <button class="qty-btn" onclick="updateQuantity('${item.id}', -1)">−</button>
-            <span class="qty-value">${item.quantity}</span>
-            <button class="qty-btn" onclick="updateQuantity('${item.id}', 1)">+</button>
+          <div class="cart-item-details">
+            <div class="cart-item-name">${item.name}</div>
+            <div class="cart-item-price">${formatPrice(item.price)} x ${item.quantity}</div>
+          </div>
+          <div class="cart-item-actions">
+            <div class="cart-item-subtotal">${formatPrice(subtotal)}</div>
+            <div class="cart-item-qty">
+              <button class="qty-btn" onclick="updateQuantity('${item.id}', -1)">−</button>
+              <span class="qty-value">${item.quantity}</span>
+              <button class="qty-btn" onclick="updateQuantity('${item.id}', 1)">+</button>
+            </div>
           </div>
         </li>
       `;
     });
 
     cartHTML += '</ul>';
-    cartHTML += `
-      <div class="cart-total">
-        <span>Total</span>
-        <span class="cart-total-amount">${formatPrice(getCartTotal())}</span>
-      </div>
-    `;
-
     cartContent.innerHTML = cartHTML;
-    orderForm.style.display = 'block';
+
+    // Update footer totals
+    const total = getCartTotal();
+    if (cartSubtotal) cartSubtotal.textContent = formatPrice(total);
+    if (cartTotalAmount) cartTotalAmount.textContent = formatPrice(total);
+    if (cartFooter) cartFooter.style.display = 'block';
   }
 }
 
-// Open cart modal
+// Open cart drawer
 function openCart() {
-  const modal = document.getElementById('cartModal');
-  modal.classList.add('active');
+  const overlay = document.getElementById('cartOverlay');
+  overlay.classList.add('active');
   document.body.style.overflow = 'hidden';
+  hideOrderForm();
 }
 
-// Close cart modal
+// Close cart drawer
 function closeCart() {
-  const modal = document.getElementById('cartModal');
-  modal.classList.remove('active');
+  const overlay = document.getElementById('cartOverlay');
+  overlay.classList.remove('active');
   document.body.style.overflow = '';
+  hideOrderForm();
 }
 
-// Close modal on overlay click
+// Show order form
+function showOrderForm() {
+  const cartBody = document.getElementById('cartBody');
+  const cartFooter = document.getElementById('cartFooter');
+  const orderFormPanel = document.getElementById('orderFormPanel');
+
+  if (cartBody) cartBody.style.display = 'none';
+  if (cartFooter) cartFooter.style.display = 'none';
+  if (orderFormPanel) orderFormPanel.style.display = 'flex';
+  orderFormPanel.style.flexDirection = 'column';
+  orderFormPanel.style.flex = '1';
+}
+
+// Hide order form
+function hideOrderForm() {
+  const cartBody = document.getElementById('cartBody');
+  const cartFooter = document.getElementById('cartFooter');
+  const orderFormPanel = document.getElementById('orderFormPanel');
+
+  if (cartBody) cartBody.style.display = 'block';
+  if (orderFormPanel) orderFormPanel.style.display = 'none';
+  // Footer visibility is handled by updateCartUI based on cart contents
+  updateCartUI();
+}
+
+// Close drawer on overlay click
 document.addEventListener('click', (e) => {
-  if (e.target.classList.contains('modal-overlay')) {
+  if (e.target.id === 'cartOverlay') {
     closeCart();
   }
 });
 
-// Close modal on escape key
+// Close drawer on escape key
 document.addEventListener('keydown', (e) => {
   if (e.key === 'Escape') {
     closeCart();
