@@ -1,0 +1,1439 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CASA 60 - Menu</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=Raleway:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <style>
+        @page {
+            size: A4;
+            margin: 0;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Raleway', sans-serif;
+            background: #f8f5f0;
+            color: #2d2d2d;
+            line-height: 1.5;
+        }
+
+        .page {
+            width: 210mm;
+            height: 297mm;
+            margin: 0 auto;
+            background: #f8f5f0;
+            padding: 45px 50px;
+            page-break-after: always;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .page::before {
+            content: '';
+            position: absolute;
+            top: 12px;
+            left: 12px;
+            right: 12px;
+            bottom: 12px;
+            border: 2px solid #c41e3a;
+            pointer-events: none;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 25px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .logo {
+            width: 60px;
+            height: auto;
+        }
+
+        .restaurant-name {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 52px;
+            font-weight: 600;
+            letter-spacing: 10px;
+            color: #c41e3a;
+            margin-bottom: 5px;
+        }
+
+        .tagline {
+            font-size: 12px;
+            letter-spacing: 4px;
+            color: #1a1a1a;
+            text-transform: uppercase;
+            font-weight: 400;
+        }
+
+        .section {
+            margin-bottom: 20px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .section-title {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 26px;
+            font-weight: 600;
+            color: #c41e3a;
+            text-transform: uppercase;
+            letter-spacing: 5px;
+            margin-bottom: 15px;
+            padding-bottom: 8px;
+            border-bottom: 2px solid #c41e3a;
+            text-align: center;
+        }
+
+        .menu-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 8px;
+        }
+
+        .item-details {
+            flex: 1;
+            padding-right: 15px;
+        }
+
+        .item-name {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 15px;
+            font-weight: 600;
+            color: #1a1a1a;
+            margin-bottom: 1px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .new-badge {
+            background: #c41e3a;
+            color: #fff;
+            font-family: 'Raleway', sans-serif;
+            font-size: 8px;
+            font-weight: 600;
+            padding: 2px 6px;
+            border-radius: 2px;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+
+        .item-description {
+            font-size: 10px;
+            color: #666;
+            font-weight: 400;
+            line-height: 1.3;
+            font-style: italic;
+        }
+
+        .item-price {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 15px;
+            font-weight: 600;
+            color: #c41e3a;
+            white-space: nowrap;
+        }
+
+        .two-columns {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        .divider {
+            text-align: center;
+            margin: 20px 0;
+            position: relative;
+        }
+
+        .divider::before,
+        .divider::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            width: 40%;
+            height: 1px;
+            background: #c41e3a;
+        }
+
+        .divider::before { left: 0; }
+        .divider::after { right: 0; }
+
+        .divider span {
+            color: #c41e3a;
+            font-size: 14px;
+            background: #f8f5f0;
+            padding: 0 12px;
+        }
+
+        .footer {
+            text-align: center;
+            margin-top: auto;
+            padding-top: 15px;
+            border-top: 1px solid #c41e3a;
+            position: relative;
+            z-index: 1;
+        }
+
+        .footer p {
+            font-size: 11px;
+            color: #555;
+            letter-spacing: 1px;
+        }
+
+        .supplement-note {
+            font-size: 10px;
+            color: #555;
+            font-style: italic;
+            margin-top: 12px;
+            padding: 8px 12px;
+            background: rgba(196, 30, 58, 0.05);
+            border-left: 3px solid #c41e3a;
+        }
+
+        .subsection-title {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 16px;
+            color: #1a1a1a;
+            margin: 15px 0 10px 0;
+            font-style: italic;
+            font-weight: 500;
+            border-bottom: 1px solid rgba(196, 30, 58, 0.3);
+            padding-bottom: 4px;
+        }
+
+        .contact-info {
+            font-size: 13px;
+            color: #555;
+            line-height: 1.8;
+            letter-spacing: 0.5px;
+        }
+
+        .contact-info strong {
+            color: #c41e3a;
+        }
+
+        .note-text {
+            font-size: 11px;
+            color: #666;
+            font-style: italic;
+            margin-bottom: 12px;
+        }
+
+        @media print {
+            body { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+            .page { page-break-after: always; }
+        }
+    </style>
+</head>
+<body>
+
+<!-- PAGE 1 - COVER -->
+<div class="page" style="display: flex; flex-direction: column; justify-content: center; align-items: center;">
+    <img src="logo.jpg" alt="CASA 60" class="logo" style="width: 160px; margin-bottom: 20px;">
+    <h1 class="restaurant-name" style="font-size: 58px; margin-bottom: 12px;">CASA 60</h1>
+    <p class="tagline" style="font-size: 14px; margin-bottom: 25px;">Restaurant & Lounge</p>
+    <div style="width: 80px; height: 2px; background: #c41e3a; margin: 20px 0;"></div>
+    <p style="font-family: 'Cormorant Garamond', serif; font-size: 32px; color: #1a1a1a; font-style: italic; margin-bottom: 50px;">Menu</p>
+    <div class="contact-info" style="text-align: center; margin-top: 30px;">
+        <p style="font-size: 15px;"><strong>Rue des Jardins, Abidjan, Cote d'Ivoire</strong></p>
+        <p style="font-size: 14px;">Face au lavage de la station Ola, Vallons</p>
+        <p style="margin-top: 15px; font-size: 18px; color: #c41e3a; font-weight: 600;">05 86 00 00 41</p>
+    </div>
+</div>
+
+<!-- PAGE 2 - ENTREES -->
+<div class="page">
+    <div class="header">
+        <img src="logo.jpg" alt="CASA 60" class="logo">
+    </div>
+    <div class="section">
+        <h2 class="section-title">Entrees</h2>
+        <div class="two-columns">
+            <div>
+                <div class="menu-item">
+                    <div class="item-details">
+                        <div class="item-name"><span class="new-badge">New</span> Carpaccio de Bresaola</div>
+                        <div class="item-description">Copeaux de parmesan, roquette, vinaigrette moutarde Dijon</div>
+                    </div>
+                    <div class="item-price">14 000</div>
+                </div>
+                <div class="menu-item">
+                    <div class="item-details">
+                        <div class="item-name">Poutine Canadienne</div>
+                        <div class="item-description">Frites, fromage canadien, sauce secrete brune</div>
+                    </div>
+                    <div class="item-price">7 500</div>
+                </div>
+                <div class="menu-item">
+                    <div class="item-details">
+                        <div class="item-name">Poutine au Poulet</div>
+                        <div class="item-description">Poutine classique, crispy poulet</div>
+                    </div>
+                    <div class="item-price">8 500</div>
+                </div>
+                <div class="menu-item">
+                    <div class="item-details">
+                        <div class="item-name">Poutine Filet Mignon</div>
+                        <div class="item-description">Poutine classique, lamelles de steak</div>
+                    </div>
+                    <div class="item-price">10 000</div>
+                </div>
+                <div class="menu-item">
+                    <div class="item-details">
+                        <div class="item-name">Viande Pesto</div>
+                        <div class="item-description">Filet de viande, sauce pesto maison, noix de cajou, tortilla</div>
+                    </div>
+                    <div class="item-price">9 000</div>
+                </div>
+                <div class="menu-item">
+                    <div class="item-details">
+                        <div class="item-name">Fajitas au Boeuf</div>
+                        <div class="item-description">Steak emince, legumes, melasse de grenade, tortilla</div>
+                    </div>
+                    <div class="item-price">8 500</div>
+                </div>
+                <div class="menu-item">
+                    <div class="item-details">
+                        <div class="item-name">Carpaccio de Boeuf</div>
+                        <div class="item-description">Fines tranches, roquette, parmesan, huile d'olive, basilic</div>
+                    </div>
+                    <div class="item-price">12 000</div>
+                </div>
+                <div class="menu-item">
+                    <div class="item-details">
+                        <div class="item-name">Ailes de Poulet</div>
+                        <div class="item-description">Sauce barbecue, Buffalo ou provencale</div>
+                    </div>
+                    <div class="item-price">7 500</div>
+                </div>
+            </div>
+            <div>
+                <div class="menu-item">
+                    <div class="item-details">
+                        <div class="item-name">Poulet Croustillant</div>
+                        <div class="item-description">Aiguillettes panees, sauce moutarde miel</div>
+                    </div>
+                    <div class="item-price">8 000</div>
+                </div>
+                <div class="menu-item">
+                    <div class="item-details">
+                        <div class="item-name">Carpaccio de Merou</div>
+                        <div class="item-description">Merou frais, oignon verts, citron, huile d'olive, basilic</div>
+                    </div>
+                    <div class="item-price">12 000</div>
+                </div>
+                <div class="menu-item">
+                    <div class="item-details">
+                        <div class="item-name">Tartare de Saumon</div>
+                        <div class="item-description">Saumon frais, ciboulettes, avocats, chips de plantain</div>
+                    </div>
+                    <div class="item-price">12 500</div>
+                </div>
+                <div class="menu-item">
+                    <div class="item-details">
+                        <div class="item-name">Crevettes "Explosives"</div>
+                        <div class="item-description">Tempura de crevettes, sauce aigre-doux epicee</div>
+                    </div>
+                    <div class="item-price">9 000</div>
+                </div>
+                <div class="menu-item">
+                    <div class="item-details">
+                        <div class="item-name">Guacamole</div>
+                        <div class="item-description">Trempette mexicaine, nachos, sour cream, salsa</div>
+                    </div>
+                    <div class="item-price">7 500</div>
+                </div>
+                <div class="menu-item">
+                    <div class="item-details">
+                        <div class="item-name">Feta Dip</div>
+                        <div class="item-description">Feta marinee fouettee, chips de pita grilles</div>
+                    </div>
+                    <div class="item-price">6 000</div>
+                </div>
+                <div class="menu-item">
+                    <div class="item-details">
+                        <div class="item-name">Halloumi Sticks</div>
+                        <div class="item-description">Halloumi panne, confiture de figue, noix de cajou</div>
+                    </div>
+                    <div class="item-price">8 000</div>
+                </div>
+                <div class="menu-item">
+                    <div class="item-details">
+                        <div class="item-name">Burrata</div>
+                        <div class="item-description">Burrata cremeuse, accompagnements frais</div>
+                    </div>
+                    <div class="item-price">14 000</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- PAGE 3 - SALADES -->
+<div class="page">
+    <div class="header">
+        <img src="logo.jpg" alt="CASA 60" class="logo">
+    </div>
+    <div class="section">
+        <h2 class="section-title">Salades</h2>
+        <div class="two-columns">
+            <div>
+                <div class="menu-item">
+                    <div class="item-details">
+                        <div class="item-name">Salade Thai</div>
+                        <div class="item-description">Choux rouge, carotte, avocat, sesame, edamame, menthe</div>
+                    </div>
+                    <div class="item-price">16 000</div>
+                </div>
+                <div class="menu-item">
+                    <div class="item-details">
+                        <div class="item-name">Salade Saumon Chevre</div>
+                        <div class="item-description">Saumon grille, avocat, mangue, orange, tournesol</div>
+                    </div>
+                    <div class="item-price">16 500</div>
+                </div>
+                <div class="menu-item">
+                    <div class="item-details">
+                        <div class="item-name">Salade Saumon Fume</div>
+                        <div class="item-description">Saumon fume, avocat, mangue, quinoa, champignon</div>
+                    </div>
+                    <div class="item-price">12 000</div>
+                </div>
+                <div class="menu-item">
+                    <div class="item-details">
+                        <div class="item-name">Salade Cesar</div>
+                        <div class="item-description">Laitue romaine, poulet grille, parmesan, croutons</div>
+                    </div>
+                    <div class="item-price">9 000</div>
+                </div>
+                <div class="menu-item">
+                    <div class="item-details">
+                        <div class="item-name">Salade de Chevre</div>
+                        <div class="item-description">Chevre chaud, betteraves, raisins, roquette</div>
+                    </div>
+                    <div class="item-price">10 000</div>
+                </div>
+                <div class="menu-item">
+                    <div class="item-details">
+                        <div class="item-name">Salade Grecque</div>
+                        <div class="item-description">Tomates, concombres, feta, olives noires</div>
+                    </div>
+                    <div class="item-price">9 000</div>
+                </div>
+            </div>
+            <div>
+                <div class="menu-item">
+                    <div class="item-details">
+                        <div class="item-name">Salade Quinoa Crevette</div>
+                        <div class="item-description">Quinoa, crevettes, avocat, ciboulettes, persil</div>
+                    </div>
+                    <div class="item-price">11 000</div>
+                </div>
+                <div class="menu-item">
+                    <div class="item-details">
+                        <div class="item-name">Salade Filet Mignon</div>
+                        <div class="item-description">Laitue, filet mignon, parmesan, tomates cerises</div>
+                    </div>
+                    <div class="item-price">10 000</div>
+                </div>
+                <div class="menu-item">
+                    <div class="item-details">
+                        <div class="item-name">Salade Tabouleh Revisitee</div>
+                        <div class="item-description">Quinoa, halloum grille, tomates, concombres</div>
+                    </div>
+                    <div class="item-price">10 000</div>
+                </div>
+                <div class="menu-item">
+                    <div class="item-details">
+                        <div class="item-name">Salade du Chef</div>
+                        <div class="item-description">Dinde, poulet, laitue, mais, oeufs, mozzarella</div>
+                    </div>
+                    <div class="item-price">12 000</div>
+                </div>
+                <div class="menu-item">
+                    <div class="item-details">
+                        <div class="item-name">Salade Pasta Tuna</div>
+                        <div class="item-description">Pates, thon, poivron rouge, avocat, champignon</div>
+                    </div>
+                    <div class="item-price">10 000</div>
+                </div>
+                <div class="menu-item">
+                    <div class="item-details">
+                        <div class="item-name">Salade Rayan</div>
+                        <div class="item-description">Quinoa, chevre, poulet, avocat, pita croustillant</div>
+                    </div>
+                    <div class="item-price">16 000</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="divider"><span>&#10022;</span></div>
+
+    <div class="section">
+        <h2 class="section-title">Pasta</h2>
+        <div class="two-columns">
+            <div>
+                <div class="menu-item">
+                    <div class="item-details">
+                        <div class="item-name">Meatballs</div>
+                        <div class="item-description">Spaghetti, sauce tomate, viande hachee, parmesan</div>
+                    </div>
+                    <div class="item-price">14 000</div>
+                </div>
+                <div class="menu-item">
+                    <div class="item-details">
+                        <div class="item-name">Pesto</div>
+                        <div class="item-description">Spaghetti, pesto maison, noix de cajou, poulet</div>
+                    </div>
+                    <div class="item-price">14 000</div>
+                </div>
+                <div class="menu-item">
+                    <div class="item-details">
+                        <div class="item-name">Four Cheese</div>
+                        <div class="item-description">Penne, sauce cremeuse, 4 fromages, basilic</div>
+                    </div>
+                    <div class="item-price">12 000</div>
+                </div>
+            </div>
+            <div>
+                <div class="menu-item">
+                    <div class="item-details">
+                        <div class="item-name">Fettuccine Alfredo</div>
+                        <div class="item-description">Tagliatelles, poulet, champignons, sauce cremeuse</div>
+                    </div>
+                    <div class="item-price">13 000</div>
+                </div>
+                <div class="menu-item">
+                    <div class="item-details">
+                        <div class="item-name">Crevette Rose Rigatoni</div>
+                        <div class="item-description">Rigatoni, sauce rosee, crevettes grillees</div>
+                    </div>
+                    <div class="item-price">14 000</div>
+                </div>
+                <div class="menu-item">
+                    <div class="item-details">
+                        <div class="item-name">Tagliatelle au Saumon</div>
+                        <div class="item-description">Tagliatelle, saumon fume, creme, champignon</div>
+                    </div>
+                    <div class="item-price">16 000</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- PAGE 4 - VIANDE & POISSON -->
+<div class="page">
+    <div class="header">
+        <img src="logo.jpg" alt="CASA 60" class="logo">
+    </div>
+    <div class="section">
+        <h2 class="section-title">Viande</h2>
+        <div class="two-columns">
+            <div>
+                <div class="menu-item">
+                    <div class="item-details">
+                        <div class="item-name">Cotelettes d'Agneau</div>
+                        <div class="item-description">Avec puree de pomme de terre et brocolis</div>
+                    </div>
+                    <div class="item-price">22 000</div>
+                </div>
+                <div class="menu-item">
+                    <div class="item-details">
+                        <div class="item-name">Filet Mignon</div>
+                        <div class="item-description">Piece de filet mignon tendre et juteuse</div>
+                    </div>
+                    <div class="item-price">17 000</div>
+                </div>
+                <div class="menu-item">
+                    <div class="item-details">
+                        <div class="item-name">Steak de Filet Mignon</div>
+                        <div class="item-description">Steak grille a la perfection</div>
+                    </div>
+                    <div class="item-price">16 500</div>
+                </div>
+            </div>
+            <div>
+                <div class="menu-item">
+                    <div class="item-details">
+                        <div class="item-name">Entrecote Black Angus</div>
+                        <div class="item-description">Entrecote de boeuf Black Angus d'Argentine</div>
+                    </div>
+                    <div class="item-price">22 000</div>
+                </div>
+                <div class="menu-item">
+                    <div class="item-details">
+                        <div class="item-name">Poulet Desosse / Poitrine</div>
+                        <div class="item-description">Poulet grille au choix</div>
+                    </div>
+                    <div class="item-price">13 000 / 15 000</div>
+                </div>
+                <div class="menu-item">
+                    <div class="item-details">
+                        <div class="item-name">Escalope</div>
+                        <div class="item-description">Poulet pane, spaghetti sauce rosee ou creme</div>
+                    </div>
+                    <div class="item-price">14 000</div>
+                </div>
+            </div>
+        </div>
+        <div class="supplement-note">
+            <strong>Sauces:</strong> Champignon, Casa60, Poivre | <strong>Accompagnements:</strong> Riz, frites, puree, legumes sautes
+        </div>
+    </div>
+
+    <div class="divider"><span>&#10022;</span></div>
+
+    <div class="section">
+        <h2 class="section-title">Poisson</h2>
+        <div class="menu-item">
+            <div class="item-details">
+                <div class="item-name">Pave de Merou</div>
+                <div class="item-description">Sauce meuniere ou sauce speciale laquee avec accompagnements au choix</div>
+            </div>
+            <div class="item-price">16 500</div>
+        </div>
+        <div class="menu-item">
+            <div class="item-details">
+                <div class="item-name">Pave de Saumon</div>
+                <div class="item-description">Sauce sriracha citronnee ou saumon au sesame avec sauce laquee</div>
+            </div>
+            <div class="item-price">18 000</div>
+        </div>
+        <div class="menu-item">
+            <div class="item-details">
+                <div class="item-name">Gambas a la Plancha</div>
+                <div class="item-description">Gambas grillees a la plancha</div>
+            </div>
+            <div class="item-price">18 000</div>
+        </div>
+    </div>
+
+    <div class="divider"><span>&#10022;</span></div>
+
+    <div class="section">
+        <h2 class="section-title">Nos Bowls</h2>
+        <div class="two-columns">
+            <div>
+                <div class="menu-item">
+                    <div class="item-details">
+                        <div class="item-name"><span class="new-badge">New</span> Crispy Chicken Bowl</div>
+                        <div class="item-description">Poulet crispy, riz/quinoa, avocat, edamame</div>
+                    </div>
+                    <div class="item-price">16 000</div>
+                </div>
+                <div class="menu-item">
+                    <div class="item-details">
+                        <div class="item-name">Salmon Bowl</div>
+                        <div class="item-description">Saumon teriyaki, riz/quinoa, avocat, brocolis</div>
+                    </div>
+                    <div class="item-price">17 500</div>
+                </div>
+            </div>
+            <div>
+                <div class="menu-item">
+                    <div class="item-details">
+                        <div class="item-name">Chicken Bowl</div>
+                        <div class="item-description">Poulet miel sesame, riz/quinoa, avocat</div>
+                    </div>
+                    <div class="item-price">15 500</div>
+                </div>
+                <div class="menu-item">
+                    <div class="item-details">
+                        <div class="item-name">Beef Teriyaki</div>
+                        <div class="item-description">Viande teriyaki, riz/quinoa, avocat, brocolis</div>
+                    </div>
+                    <div class="item-price">16 000</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- PAGE 5 - BURGERS & TOASTS -->
+<div class="page">
+    <div class="header">
+        <img src="logo.jpg" alt="CASA 60" class="logo">
+    </div>
+    <div class="section">
+        <h2 class="section-title">Burgers & Sandwiches</h2>
+        <div class="two-columns">
+            <div>
+                <div class="menu-item">
+                    <div class="item-details">
+                        <div class="item-name">Cheese Burger</div>
+                        <div class="item-description">Laitue, tomates, oignons, sauce burger, frites</div>
+                    </div>
+                    <div class="item-price">9 000</div>
+                </div>
+                <div class="menu-item">
+                    <div class="item-details">
+                        <div class="item-name">Mozza Burger (Vege)</div>
+                        <div class="item-description">Mozzarella frit, laitue, tomates, frites</div>
+                    </div>
+                    <div class="item-price">8 000</div>
+                </div>
+                <div class="menu-item">
+                    <div class="item-details">
+                        <div class="item-name">Mush Swiss Burger</div>
+                        <div class="item-description">Champignons, emmental, laitue, frites</div>
+                    </div>
+                    <div class="item-price">10 000</div>
+                </div>
+                <div class="menu-item">
+                    <div class="item-details">
+                        <div class="item-name">Crispy Chicken Burger</div>
+                        <div class="item-description">Poulet croustillant, laitue, cheddar</div>
+                    </div>
+                    <div class="item-price">10 000</div>
+                </div>
+            </div>
+            <div>
+                <div class="menu-item">
+                    <div class="item-details">
+                        <div class="item-name">Quesadillas au Poulet</div>
+                        <div class="item-description">Poulet marine, poivrons, fromage, frites</div>
+                    </div>
+                    <div class="item-price">10 000</div>
+                </div>
+                <div class="menu-item">
+                    <div class="item-details">
+                        <div class="item-name">Club Sandwich</div>
+                        <div class="item-description">Poulet, dinde, oeufs, tomates, laitue, frites</div>
+                    </div>
+                    <div class="item-price">9 000</div>
+                </div>
+                <div class="menu-item">
+                    <div class="item-details">
+                        <div class="item-name">Wrap Poulet Explosif</div>
+                        <div class="item-description">Poulet pane, tortilla, sauce piment doux, frites</div>
+                    </div>
+                    <div class="item-price">9 500</div>
+                </div>
+            </div>
+        </div>
+        <div class="supplement-note">
+            <strong>Supplements:</strong> Viande +1 500 | Poulet +1 500
+        </div>
+    </div>
+
+    <div class="divider"><span>&#10022;</span></div>
+
+    <div class="section">
+        <h2 class="section-title">Toast</h2>
+        <p class="note-text">Tous nos toasts sont servis sur pain au levain aux cereales</p>
+        <div class="two-columns">
+            <div>
+                <div class="menu-item">
+                    <div class="item-details">
+                        <div class="item-name"><span class="new-badge">New</span> Avohalloumi Toast</div>
+                        <div class="item-description">Avocat, halloum grille, sesame, miel</div>
+                    </div>
+                    <div class="item-price">7 500</div>
+                </div>
+                <div class="menu-item">
+                    <div class="item-details">
+                        <div class="item-name">Brie Toast</div>
+                        <div class="item-description">Brie roti, pomme caramelisee, miel, noix</div>
+                    </div>
+                    <div class="item-price">8 500</div>
+                </div>
+                <div class="menu-item">
+                    <div class="item-details">
+                        <div class="item-name">Labneh Toast</div>
+                        <div class="item-description">Labneh, concombre, tomate, zaatar</div>
+                    </div>
+                    <div class="item-price">5 500</div>
+                </div>
+                <div class="menu-item">
+                    <div class="item-details">
+                        <div class="item-name">Mozzarella di Bufala</div>
+                        <div class="item-description">Mozzarella, tomate, basilic, pesto</div>
+                    </div>
+                    <div class="item-price">8 500</div>
+                </div>
+                <div class="menu-item">
+                    <div class="item-details">
+                        <div class="item-name">Pastra-Bufala</div>
+                        <div class="item-description">Avocat, bufala, pastrami</div>
+                    </div>
+                    <div class="item-price">10 500</div>
+                </div>
+                <div class="menu-item">
+                    <div class="item-details">
+                        <div class="item-name">Avo Toast</div>
+                        <div class="item-description">Avocat, citron, chili flakes</div>
+                    </div>
+                    <div class="item-price">4 500</div>
+                </div>
+            </div>
+            <div>
+                <div class="menu-item">
+                    <div class="item-details">
+                        <div class="item-name">Avo Saumon</div>
+                        <div class="item-description">Avocat, saumon fume, citron</div>
+                    </div>
+                    <div class="item-price">8 000</div>
+                </div>
+                <div class="menu-item">
+                    <div class="item-details">
+                        <div class="item-name">Avo Dinde Toast</div>
+                        <div class="item-description">Avocat, dinde fumee, citron</div>
+                    </div>
+                    <div class="item-price">7 000</div>
+                </div>
+                <div class="menu-item">
+                    <div class="item-details">
+                        <div class="item-name">The Goat</div>
+                        <div class="item-description">Fromage de chevre, champignons, miel</div>
+                    </div>
+                    <div class="item-price">7 500</div>
+                </div>
+                <div class="menu-item">
+                    <div class="item-details">
+                        <div class="item-name">La Greek / Burrata Toast</div>
+                        <div class="item-description">Feta au zaatar ou burrata, tomates, pesto</div>
+                    </div>
+                    <div class="item-price">6 000 / 10 000</div>
+                </div>
+                <div class="menu-item">
+                    <div class="item-details">
+                        <div class="item-name">Honey Halloumi Toast</div>
+                        <div class="item-description">Halloum grille au miel, roquette, labneh</div>
+                    </div>
+                    <div class="item-price">7 500</div>
+                </div>
+                <div class="menu-item">
+                    <div class="item-details">
+                        <div class="item-name">Plateau 4 Toast / Charcuterie</div>
+                        <div class="item-description">Selection de nos toasts signatures</div>
+                    </div>
+                    <div class="item-price">14 000 / 16 000</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- PAGE 6 - OEUFS & PLATS -->
+<div class="page">
+    <div class="header">
+        <img src="logo.jpg" alt="CASA 60" class="logo">
+    </div>
+    <div class="section">
+        <h2 class="section-title">Oeufs</h2>
+        <div class="two-columns">
+            <div>
+                <div class="menu-item">
+                    <div class="item-details">
+                        <div class="item-name">Oeufs Bene Bresaola</div>
+                        <div class="item-description">Oeufs benedictine a la bresaola</div>
+                    </div>
+                    <div class="item-price">7 500</div>
+                </div>
+                <div class="menu-item">
+                    <div class="item-details">
+                        <div class="item-name">Oeufs Bene Dinde</div>
+                        <div class="item-description">Oeufs benedictine a la dinde</div>
+                    </div>
+                    <div class="item-price">6 500</div>
+                </div>
+                <div class="menu-item">
+                    <div class="item-details">
+                        <div class="item-name">Oeufs Bene Saumon</div>
+                        <div class="item-description">Oeufs benedictine au saumon</div>
+                    </div>
+                    <div class="item-price">7 000</div>
+                </div>
+                <div class="menu-item">
+                    <div class="item-details">
+                        <div class="item-name">Oeufs Bene Pastrami</div>
+                        <div class="item-description">Oeufs benedictine au pastrami</div>
+                    </div>
+                    <div class="item-price">6 500</div>
+                </div>
+            </div>
+            <div>
+                <div class="menu-item">
+                    <div class="item-details">
+                        <div class="item-name">Creer Votre Omelette</div>
+                        <div class="item-description">3 legumes + 1 fromage au choix</div>
+                    </div>
+                    <div class="item-price">5 500</div>
+                </div>
+                <div class="menu-item">
+                    <div class="item-details">
+                        <div class="item-name">Oeufs au Plat</div>
+                        <div class="item-description">Trois oeufs cuits dans une staub</div>
+                    </div>
+                    <div class="item-price">4 500</div>
+                </div>
+                <div class="menu-item">
+                    <div class="item-details">
+                        <div class="item-name">Grilled Egg Cheese</div>
+                        <div class="item-description">Sandwich cheddar fondant, omelette</div>
+                    </div>
+                    <div class="item-price">6 000</div>
+                </div>
+                <div class="menu-item">
+                    <div class="item-details">
+                        <div class="item-name">American Breakfast</div>
+                        <div class="item-description">Oeufs, saucisses, patates sautees, toast</div>
+                    </div>
+                    <div class="item-price">14 000</div>
+                </div>
+            </div>
+        </div>
+        <div class="supplement-note">
+            <strong>Legumes:</strong> Tomates, oignons, epinards, poivrons, champignons | <strong>Fromages:</strong> Mozzarella, cheddar, gruyere | <strong>Proteines:</strong> Dinde +2 500, Saumon +3 000
+        </div>
+    </div>
+
+    <div class="divider"><span>&#10022;</span></div>
+
+    <div class="section">
+        <h2 class="section-title">Plats</h2>
+        <div class="menu-item">
+            <div class="item-details">
+                <div class="item-name"><span class="new-badge">New</span> Nashville Sandwich</div>
+                <div class="item-description">Pain brioche, tempura poulet, Nashville sauce, oeuf poche, cheddar, potato wedges</div>
+            </div>
+            <div class="item-price">12 000</div>
+        </div>
+        <div class="menu-item">
+            <div class="item-details">
+                <div class="item-name"><span class="new-badge">New</span> Breakfast Sandwich</div>
+                <div class="item-description">Pain brioche, omelette, tomate, laitue, cheddar, sauce secrete, potato wedges</div>
+            </div>
+            <div class="item-price">8 000</div>
+        </div>
+        <div class="menu-item">
+            <div class="item-details">
+                <div class="item-name">Chicken Waffle</div>
+                <div class="item-description">Poulet frit sur gaufres, sauce a l'erable</div>
+            </div>
+            <div class="item-price">8 500</div>
+        </div>
+        <div class="menu-item">
+            <div class="item-details">
+                <div class="item-name">Assiette Halloumi</div>
+                <div class="item-description">Halloum grille, labneh, tomates, concombres, olives, menthe</div>
+            </div>
+            <div class="item-price">9 000</div>
+        </div>
+        <div class="supplement-note">
+            <strong>Supplement Breakfast Sandwich:</strong> Bresaola, pastrami, dinde, jambon, salami (+1 500)
+        </div>
+    </div>
+</div>
+
+<!-- PAGE 7 - SWEET & HEALTHY -->
+<div class="page">
+    <div class="header">
+        <img src="logo.jpg" alt="CASA 60" class="logo">
+    </div>
+    <div class="section">
+        <h2 class="section-title">Sweet Tooth</h2>
+        <div class="two-columns">
+            <div>
+                <div class="menu-item">
+                    <div class="item-details">
+                        <div class="item-name"><span class="new-badge">New</span> Banana Pudding</div>
+                        <div class="item-description">Pudding cremeux a la banane</div>
+                    </div>
+                    <div class="item-price">5 000</div>
+                </div>
+                <div class="menu-item">
+                    <div class="item-details">
+                        <div class="item-name">French Sticks Toast</div>
+                        <div class="item-description">French toast fourre au nutella ou pistache</div>
+                    </div>
+                    <div class="item-price">6 500</div>
+                </div>
+                <div class="menu-item">
+                    <div class="item-details">
+                        <div class="item-name">Pancakes Avoine</div>
+                        <div class="item-description">A base de flocons d'avoine</div>
+                    </div>
+                    <div class="item-price">7 500</div>
+                </div>
+                <div class="menu-item">
+                    <div class="item-details">
+                        <div class="item-name">French Toast</div>
+                        <div class="item-description">Pain brioche, sucre glace, sirop d'erable</div>
+                    </div>
+                    <div class="item-price">6 000</div>
+                </div>
+            </div>
+            <div>
+                <div class="menu-item">
+                    <div class="item-details">
+                        <div class="item-name">Gaufres</div>
+                        <div class="item-description">Bananes, fraise, sirop d'erable ou nutella</div>
+                    </div>
+                    <div class="item-price">5 000</div>
+                </div>
+                <div class="menu-item">
+                    <div class="item-details">
+                        <div class="item-name">Pancakes</div>
+                        <div class="item-description">Bananes, sirop d'erable, miel ou nutella</div>
+                    </div>
+                    <div class="item-price">6 000</div>
+                </div>
+                <div class="menu-item">
+                    <div class="item-details">
+                        <div class="item-name">Crepes</div>
+                        <div class="item-description">Bananes, sirop d'erable, miel ou nutella</div>
+                    </div>
+                    <div class="item-price">5 000</div>
+                </div>
+            </div>
+        </div>
+        <div class="supplement-note">
+            <strong>Supplements:</strong> El Mordjene +2 000 | Pistache +500 | Proteine (vanille/chocolat) +1 000
+        </div>
+    </div>
+
+    <div class="divider"><span>&#10022;</span></div>
+
+    <div class="section">
+        <h2 class="section-title">Healthy Corner</h2>
+        <div class="two-columns">
+            <div>
+                <div class="menu-item">
+                    <div class="item-details">
+                        <div class="item-name">Perles du Japon</div>
+                        <div class="item-description">Pudding lait de coco, coulis mangue/fraise</div>
+                    </div>
+                    <div class="item-price">7 000</div>
+                </div>
+                <div class="menu-item">
+                    <div class="item-details">
+                        <div class="item-name">Chia Pudding</div>
+                        <div class="item-description">Lait d'amande, fruits, beurre d'amande (Sans Gluten)</div>
+                    </div>
+                    <div class="item-price">6 500</div>
+                </div>
+                <div class="menu-item">
+                    <div class="item-details">
+                        <div class="item-name">Overnight Oats</div>
+                        <div class="item-description">Flocons, chia, lait d'amande, beurre d'arachide (SG)</div>
+                    </div>
+                    <div class="item-price">6 000</div>
+                </div>
+                <div class="menu-item">
+                    <div class="item-details">
+                        <div class="item-name">Toast Beurre d'Arachide</div>
+                        <div class="item-description">Pain complet, beurre d'amande, banane, chia</div>
+                    </div>
+                    <div class="item-price">6 000</div>
+                </div>
+            </div>
+            <div>
+                <div class="menu-item">
+                    <div class="item-details">
+                        <div class="item-name">Pistachio Cream Toast</div>
+                        <div class="item-description">Pain complet, beurre de pistache, fraise</div>
+                    </div>
+                    <div class="item-price">6 500</div>
+                </div>
+                <div class="menu-item">
+                    <div class="item-details">
+                        <div class="item-name">Granola Parfait</div>
+                        <div class="item-description">Yaourt, granola, fruits, sirop d'erable</div>
+                    </div>
+                    <div class="item-price">6 500</div>
+                </div>
+                <div class="menu-item">
+                    <div class="item-details">
+                        <div class="item-name">Smoothie Bowl</div>
+                        <div class="item-description">Smoothie fruits/avocat, granola maison</div>
+                    </div>
+                    <div class="item-price">7 000</div>
+                </div>
+                <div class="menu-item">
+                    <div class="item-details">
+                        <div class="item-name">Oatmeal</div>
+                        <div class="item-description">Flocons au lait d'amande, fruits (Sans Gluten)</div>
+                    </div>
+                    <div class="item-price">5 500</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- PAGE 8 - DESSERTS -->
+<div class="page">
+    <div class="header">
+        <img src="logo.jpg" alt="CASA 60" class="logo">
+    </div>
+    <div class="section">
+        <h2 class="section-title">Desserts</h2>
+        <div class="two-columns">
+            <div>
+                <div class="menu-item">
+                    <div class="item-details">
+                        <div class="item-name"><span class="new-badge">New</span> Rice Pistachio Pudding</div>
+                        <div class="item-description">Pudding de riz a la pistache</div>
+                    </div>
+                    <div class="item-price">7 000</div>
+                </div>
+                <div class="menu-item">
+                    <div class="item-details">
+                        <div class="item-name">Banana Pudding</div>
+                        <div class="item-description">Pudding cremeux a la banane</div>
+                    </div>
+                    <div class="item-price">5 000</div>
+                </div>
+                <div class="menu-item">
+                    <div class="item-details">
+                        <div class="item-name">Perles du Japon</div>
+                        <div class="item-description">Pudding lait de coco, coulis mangue</div>
+                    </div>
+                    <div class="item-price">7 000</div>
+                </div>
+                <div class="menu-item">
+                    <div class="item-details">
+                        <div class="item-name">Pain Perdu</div>
+                        <div class="item-description">French toast traditionnel</div>
+                    </div>
+                    <div class="item-price">6 500</div>
+                </div>
+            </div>
+            <div>
+                <div class="menu-item">
+                    <div class="item-details">
+                        <div class="item-name">Sweet Casa60</div>
+                        <div class="item-description">Notre dessert signature</div>
+                    </div>
+                    <div class="item-price">7 000</div>
+                </div>
+                <div class="menu-item">
+                    <div class="item-details">
+                        <div class="item-name">Fondant au Chocolat</div>
+                        <div class="item-description">Gateau moelleux au coeur coulant</div>
+                    </div>
+                    <div class="item-price">7 500</div>
+                </div>
+                <div class="menu-item">
+                    <div class="item-details">
+                        <div class="item-name">Pancakes / Mini Pancakes</div>
+                        <div class="item-description">Pancakes classiques ou mini</div>
+                    </div>
+                    <div class="item-price">6 000 / 6 500</div>
+                </div>
+                <div class="menu-item">
+                    <div class="item-details">
+                        <div class="item-name">Gateaux du Bar</div>
+                        <div class="item-description">Selection du jour</div>
+                    </div>
+                    <div class="item-price">4 000</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="divider"><span>&#10022;</span></div>
+
+    <div class="section">
+        <h2 class="section-title">Hot or Cold?</h2>
+        <div class="two-columns">
+            <div>
+                <p class="subsection-title">Boissons Chaudes</p>
+                <div class="menu-item">
+                    <div class="item-details">
+                        <div class="item-name">Espresso / Double</div>
+                    </div>
+                    <div class="item-price">1 500 / 2 500</div>
+                </div>
+                <div class="menu-item">
+                    <div class="item-details">
+                        <div class="item-name">Americano / Cappuccino</div>
+                    </div>
+                    <div class="item-price">3 000</div>
+                </div>
+                <div class="menu-item">
+                    <div class="item-details">
+                        <div class="item-name">Chocolat Chaud / Latte</div>
+                        <div class="item-description">Caramel/vanille +500</div>
+                    </div>
+                    <div class="item-price">3 000</div>
+                </div>
+                <div class="menu-item">
+                    <div class="item-details">
+                        <div class="item-name">Matcha Latte</div>
+                    </div>
+                    <div class="item-price">4 000</div>
+                </div>
+                <div class="menu-item">
+                    <div class="item-details">
+                        <div class="item-name">Macchiato / Spanish Latte</div>
+                    </div>
+                    <div class="item-price">2 500 / 3 500</div>
+                </div>
+                <div class="menu-item">
+                    <div class="item-details">
+                        <div class="item-name">The / The Maison</div>
+                        <div class="item-description">Gingembre, citron, menthe</div>
+                    </div>
+                    <div class="item-price">2 000 / 2 500</div>
+                </div>
+            </div>
+            <div>
+                <p class="subsection-title">Boissons Glacees</p>
+                <div class="menu-item">
+                    <div class="item-details">
+                        <div class="item-name"><span class="new-badge">New</span> Iced Coconut Americano/Matcha</div>
+                    </div>
+                    <div class="item-price">4 500</div>
+                </div>
+                <div class="menu-item">
+                    <div class="item-details">
+                        <div class="item-name">Iced Coffee / Iced Latte</div>
+                        <div class="item-description">Sirop caramel/vanille +500</div>
+                    </div>
+                    <div class="item-price">3 000</div>
+                </div>
+                <div class="menu-item">
+                    <div class="item-details">
+                        <div class="item-name">Iced Spanish / Freddo Latte</div>
+                    </div>
+                    <div class="item-price">4 000 / 4 500</div>
+                </div>
+                <div class="menu-item">
+                    <div class="item-details">
+                        <div class="item-name">Tiramisu Iced Latte</div>
+                    </div>
+                    <div class="item-price">4 500</div>
+                </div>
+                <div class="menu-item">
+                    <div class="item-details">
+                        <div class="item-name">Frappuccino / Mocha Frappe</div>
+                    </div>
+                    <div class="item-price">4 500</div>
+                </div>
+                <div class="menu-item">
+                    <div class="item-details">
+                        <div class="item-name">Milkshake</div>
+                        <div class="item-description">Chocolat, caramel, fraise, vanille</div>
+                    </div>
+                    <div class="item-price">4 500</div>
+                </div>
+            </div>
+        </div>
+        <div class="supplement-note">
+            <strong>Laits alternatifs:</strong> Amande, avoine, soja, sans lactose (+1 000)
+        </div>
+    </div>
+</div>
+
+<!-- PAGE 9 - MATCHA, JUS & MOCKTAILS -->
+<div class="page">
+    <div class="header">
+        <img src="logo.jpg" alt="CASA 60" class="logo">
+    </div>
+    <div class="section">
+        <h2 class="section-title">Matcha Selection</h2>
+        <div class="two-columns">
+            <div>
+                <div class="menu-item">
+                    <div class="item-details">
+                        <div class="item-name">Matcha Latte Glace</div>
+                    </div>
+                    <div class="item-price">4 000</div>
+                </div>
+                <div class="menu-item">
+                    <div class="item-details">
+                        <div class="item-name">Matcha Frappe</div>
+                    </div>
+                    <div class="item-price">4 500</div>
+                </div>
+                <div class="menu-item">
+                    <div class="item-details">
+                        <div class="item-name">Iced Blueberry Matcha</div>
+                    </div>
+                    <div class="item-price">4 500</div>
+                </div>
+            </div>
+            <div>
+                <div class="menu-item">
+                    <div class="item-details">
+                        <div class="item-name">Iced Freddo Matcha</div>
+                    </div>
+                    <div class="item-price">4 500</div>
+                </div>
+                <div class="menu-item">
+                    <div class="item-details">
+                        <div class="item-name">Tiramisu Iced Matcha</div>
+                    </div>
+                    <div class="item-price">4 500</div>
+                </div>
+                <div class="menu-item">
+                    <div class="item-details">
+                        <div class="item-name">Affogato</div>
+                    </div>
+                    <div class="item-price">2 500</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="divider"><span>&#10022;</span></div>
+
+    <div class="section">
+        <h2 class="section-title">Jus Frais & Smoothies</h2>
+        <div class="two-columns">
+            <div>
+                <div class="menu-item">
+                    <div class="item-details">
+                        <div class="item-name"><span class="new-badge">New</span> Jus Orange Sanguine</div>
+                    </div>
+                    <div class="item-price">4 000</div>
+                </div>
+                <div class="menu-item">
+                    <div class="item-details">
+                        <div class="item-name">Jus Orange / Ananas</div>
+                    </div>
+                    <div class="item-price">3 000</div>
+                </div>
+                <div class="menu-item">
+                    <div class="item-details">
+                        <div class="item-name">Jus Pomme / Carotte</div>
+                    </div>
+                    <div class="item-price">3 500</div>
+                </div>
+                <div class="menu-item">
+                    <div class="item-details">
+                        <div class="item-name">Jus Passion / Mangue</div>
+                    </div>
+                    <div class="item-price">5 000 / 4 000</div>
+                </div>
+                <div class="menu-item">
+                    <div class="item-details">
+                        <div class="item-name">Jus Mixte</div>
+                        <div class="item-description">Orange, carotte, pomme, ananas</div>
+                    </div>
+                    <div class="item-price">3 500</div>
+                </div>
+            </div>
+            <div>
+                <div class="menu-item">
+                    <div class="item-details">
+                        <div class="item-name">Smoothie Fraise Banane</div>
+                    </div>
+                    <div class="item-price">5 000</div>
+                </div>
+                <div class="menu-item">
+                    <div class="item-details">
+                        <div class="item-name">Smoothie Mangue Passion</div>
+                    </div>
+                    <div class="item-price">5 000</div>
+                </div>
+                <div class="menu-item">
+                    <div class="item-details">
+                        <div class="item-name">Smoothie Fruit Rouge</div>
+                    </div>
+                    <div class="item-price">5 000</div>
+                </div>
+                <div class="menu-item">
+                    <div class="item-details">
+                        <div class="item-name">Smoothie PAG / Green Goddess</div>
+                    </div>
+                    <div class="item-price">5 500 / 5 000</div>
+                </div>
+                <div class="menu-item">
+                    <div class="item-details">
+                        <div class="item-name">Booster Shots</div>
+                    </div>
+                    <div class="item-price">2 500</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="divider"><span>&#10022;</span></div>
+
+    <div class="section">
+        <h2 class="section-title">Mocktails</h2>
+        <div class="two-columns">
+            <div>
+                <div class="menu-item">
+                    <div class="item-details">
+                        <div class="item-name">Limonade / Limonade Menthe</div>
+                    </div>
+                    <div class="item-price">3 000 / 3 500</div>
+                </div>
+                <div class="menu-item">
+                    <div class="item-details">
+                        <div class="item-name">Sex on the Beach</div>
+                    </div>
+                    <div class="item-price">4 000</div>
+                </div>
+                <div class="menu-item">
+                    <div class="item-details">
+                        <div class="item-name">Blue Sky / Jamaican</div>
+                    </div>
+                    <div class="item-price">4 500</div>
+                </div>
+                <div class="menu-item">
+                    <div class="item-details">
+                        <div class="item-name">Hawaii Passion / Pina Colada</div>
+                    </div>
+                    <div class="item-price">4 500</div>
+                </div>
+            </div>
+            <div>
+                <div class="menu-item">
+                    <div class="item-details">
+                        <div class="item-name">Mojito / Passion Mojito</div>
+                    </div>
+                    <div class="item-price">4 000 / 4 500</div>
+                </div>
+                <div class="menu-item">
+                    <div class="item-details">
+                        <div class="item-name">Berries Mojito</div>
+                    </div>
+                    <div class="item-price">5 000</div>
+                </div>
+                <div class="menu-item">
+                    <div class="item-details">
+                        <div class="item-name">Blueberry Mojito</div>
+                    </div>
+                    <div class="item-price">5 000</div>
+                </div>
+                <div class="menu-item">
+                    <div class="item-details">
+                        <div class="item-name">Peachy Casa</div>
+                    </div>
+                    <div class="item-price">4 500</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="footer">
+        <div style="width: 50px; height: 2px; background: #c41e3a; margin: 0 auto 12px;"></div>
+        <p style="font-family: 'Cormorant Garamond', serif; font-size: 18px; color: #1a1a1a; margin-bottom: 8px; font-style: italic;">Merci de votre visite</p>
+        <p style="font-weight: 500; color: #1a1a1a; font-size: 13px;">CASA 60 - Restaurant & Lounge</p>
+        <p style="margin-top: 6px; font-size: 10px;">Rue des Jardins, Abidjan - Face au lavage de la station Ola, Vallons</p>
+        <p style="color: #c41e3a; font-weight: 600; margin-top: 4px; font-size: 12px;">05 86 00 00 41</p>
+        <p style="margin-top: 8px; color: #888; font-size: 9px;">Prix en FCFA - Service non compris</p>
+    </div>
+</div>
+
+</body>
+</html>
